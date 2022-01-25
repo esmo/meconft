@@ -1,7 +1,5 @@
 import {useState, useEffect} from "react";
 
-import Web3 from "web3";
-
 import "./App.css";
 
 import {BounceLoader} from "react-spinners";
@@ -12,33 +10,35 @@ import NftForm from "./NftForm";
 import "semantic-ui-css/semantic.min.css";
 
 import ipfs from "./helpers/ipfs";
+import getWeb3 from "./helpers/getWeb3";
 
-import MecoNftFactory from "./contracts/MecoNftFactory";
+import getMecoNft from "./helpers/getMecoNft";
 
 function App() {
   const [formData, setFormData] = useState({});
   const [account, setAccount] = useState("");
   const [ipfsHash, setIpfsHash] = useState("");
-  const [transactionReceipt, setTransactionReceipt] = useState("");
+  const [transactionReceipt, setTransactionReceipt] = useState({});
   const [loading, setLoading] = useState(false);
-  const initWeb3 = async () => {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-      return true;
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-      return true;
-    } else {
-      window.alert(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-      return false;
-    }
-  };
+  // const initWeb3 = async () => {
+  //   if (window.ethereum) {
+  //     window.web3 = new Web3(window.ethereum);
+  //     await window.ethereum.enable();
+  //     return true;
+  //   } else if (window.web3) {
+  //     window.web3 = new Web3(window.web3.currentProvider);
+  //     return true;
+  //   } else {
+  //     window.alert(
+  //       "Non-Ethereum browser detected. You should consider trying MetaMask!"
+  //     );
+  //     return false;
+  //   }
+  // };
 
   const connectToBlockchain = async () => {
-    const accounts = await window.web3.eth.getAccounts();
+    const web3 = await getWeb3();
+    const accounts = await web3.eth.getAccounts();
     setAccount(accounts[0]);
   };
 
@@ -53,25 +53,26 @@ function App() {
     console.log("SUBMITTING FORM!");
     setLoading(true);
     if (formData.image) {
-      const ipfsHash = await ipfs.add(formData.image);
-      console.log("ipfsHash", ipfsHash);
-      setIpfsHash(ipfsHash.path);
+      const ipfsResponse = await ipfs.add(formData.image);
+      console.log("ipfsResponse", ipfsResponse);
+      setIpfsHash(ipfsResponse.path);
+      try {
+        const contract = await getMecoNft();
+        // const nftContract = await MecoNftFactory();
+        const receipt = await contract.methods
+          .mintNft(account, ipfsResponse.path)
+          .send({
+            from: account,
+          });
+        console.log("receipt as returned by smart contract:", receipt);
+        setTransactionReceipt(receipt);
+      } catch (anything) {
+        console.log(anything);
+      }
     } else {
       console.log("no image found");
     }
 
-    const nftContract = await MecoNftFactory();
-    const receipt = await nftContract.methods
-      .mint(account, ipfsHash.path)
-      .call(function (err, res) {
-        if (!err) {
-          console.log(res);
-        } else {
-          console.log(err);
-        }
-      });
-    console.log("receipt as returned by smart contract:", receipt);
-    setTransactionReceipt(receipt);
     setLoading(false);
   };
 
@@ -96,7 +97,7 @@ function App() {
           {account || (
             <button
               onClick={async () => {
-                await initWeb3();
+                // await initWeb3();
                 await connectToBlockchain();
               }}
             >
@@ -113,7 +114,7 @@ function App() {
         />
         <div>
           <div>IPFS hash: {ipfsHash}</div>
-          <div>Transaction receipt: {transactionReceipt}</div>
+          <div>Transaction receipt: {JSON.stringify(transactionReceipt)}</div>
         </div>
       </div>
     </>
