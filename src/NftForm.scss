@@ -1,0 +1,20 @@
+.ui.form.nft-form {
+  max-width: 800px;
+  input[type="text"],
+  textarea {
+    color: white;
+    background: black;
+    border: 1px solid white;
+    &:focus {
+      color: white;
+      background: black;
+      border-color: #0505e6;
+    }
+  }
+  .ui.button {
+    background-color: #0505e6;
+    &:hover {
+      background-color: #d90303;
+    }
+  }
+}

@@ -1,32 +1,46 @@
-import {Form, Header} from "semantic-ui-react";
+import { Form, Header } from "semantic-ui-react";
 import ImagePreview from "./ImagePreview";
 
-import "./NftForm.css";
+import "./NftForm.scss";
 
-export default function NftForm({formData, handleChange, handleSubmit, setLoading}) {
+export default function NftForm({
+  formData,
+  handleChange,
+  handleSubmit,
+  setLoading,
+}) {
   return (
     <Form className="nft-form" encType="multipart/form-data">
       <Form.Group grouped>
         <ImagePreview
-          setImage={(imageData) => {
+          setImage={(filename, imageData) => {
+            handleChange("imageName", filename);
             handleChange("image", imageData);
           }}
           setLoading={setLoading}
         />
-      </Form.Group>
 
-      <Form.Group widths="equal">
         <Form.Input
-          fluid
-          label="Name der Arbeit"
-          placeholder="Name der Arbeit"
-          onChange={(object, {value}) => {
-            handleChange("name", value);
+          placeholder="Item name"
+          onChange={(object, { value }) => {
+            handleChange("title", value);
+          }}
+        />
+        <Form.Input
+          placeholder="Name"
+          onChange={(object, { value }) => {
+            handleChange("creator", value);
+          }}
+        />
+        <Form.TextArea
+          placeholder="Description"
+          onChange={(object, { value }) => {
+            handleChange("description", value);
           }}
         />
       </Form.Group>
 
-      <Form.Group grouped>
+      {/*<Form.Group grouped>
         <Header as="h5">Lege die Nutzungsbedingungen fest</Header>
         <Form.Radio
           label="kommerzielle Nutzung erlaubt"
@@ -46,7 +60,7 @@ export default function NftForm({formData, handleChange, handleSubmit, setLoadin
           }}
           toggle={true}
         />
-      </Form.Group>
+      </Form.Group>*/}
 
       <Form.Group grouped>
         <Form.Button

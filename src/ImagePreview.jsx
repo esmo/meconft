@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import placeholder from "./placeholder.jpg";
-import "./ImagePreview.css";
+import "./ImagePreview.scss";
 
 import captureFile from "./helpers/captureFile";
 
@@ -17,18 +17,17 @@ const ImgPrev = ({setImage, setLoading}) => {
     alt: placeholder,
   });
 
-  const fileToDataUri = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
+  // const fileToDataUri = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onload = (event) => {
+  //       resolve(event.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
 
   const handleImg = (e) => {
     setLoading(true);
-    console.log("setLoading(true) ");
     let src = URL.createObjectURL(e.target.files[0]);
     if (e.target.files[0]) {
       setState({
@@ -37,9 +36,7 @@ const ImgPrev = ({setImage, setLoading}) => {
       });
 
       captureFile(e, (buffer) => {
-        console.log("storing file buffer");
-        setImage(buffer);
-        console.log("setLoading(false) ");
+        setImage(e.target.files[0].name, buffer);
         setLoading(false);
       });
     }
@@ -48,9 +45,10 @@ const ImgPrev = ({setImage, setLoading}) => {
   const getViewer = (src, alt) => {
     let filetype = alt.match(/\.[0-9A-Za-z]+$/i);
     if (Array.isArray(filetype)) filetype = filetype[0];
-    if (filetype == null) return <div>Der Dateityp wurde nicht erkannt.</div>;
 
     switch (filetype) {
+      case null:
+        break;
       case ".jpg":
       case ".JPG":
       case ".jpeg":
@@ -83,7 +81,7 @@ const ImgPrev = ({setImage, setLoading}) => {
         return <GLTFModel width="480" height="480" src={src}></GLTFModel>;
         break;
       default:
-        return <div>Der Dateityp {filetype} wird nicht unterstützt.</div>;
+        return <div>Der Dateityp "{filetype}" wird nicht unterstützt.</div>;
     }
   };
 
