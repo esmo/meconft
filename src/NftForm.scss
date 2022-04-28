@@ -1,9 +1,24 @@
 .ui.form.nft-form {
   max-width: 800px;
+  .grouped.fields > * {
+  }
+  *::placeholder {
+    color: white;
+    opacity: 1;
+  }
+  input[type="text"],
+  .ui.button {
+    height: 40px;
+  }
+  .form__img-input-container,
+  input[type="text"] {
+    margin-bottom: 10px;
+  }
+
   input[type="text"],
   textarea {
     color: white;
-    background: black;
+    background: transparent;
     border: 1px solid white;
     &:focus {
       color: white;
@@ -11,10 +26,15 @@
       border-color: #0505e6;
     }
   }
+  textarea {
+        min-height: 150px;
+  }
   .ui.button {
+    color: white;
+    font-weight: normal;
     background-color: #0505e6;
     &:hover {
-      background-color: #d90303;
+      background-color: #0303a6;
     }
   }
 }

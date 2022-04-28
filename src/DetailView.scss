@@ -1,0 +1,18 @@
+.detail-view {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  .viewer-item {
+  }
+  .metadata {
+    margin-left: 50px;
+    .creator {
+      font-weight: bold;
+    }
+    & > * {
+      margin: 0;
+      padding: 0;
+      margin-bottom: 25px;
+    }
+  }
+}

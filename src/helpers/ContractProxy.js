@@ -50,6 +50,25 @@ export default function ContractProxy(contract, account) {
     );
   };
 
+  this.allTokenUris = async () => {
+    let lastTokenId = await this.lastTokenId();
+    let tokenIds = [];
+    for (let i = 1; i <= lastTokenId; i++) {
+      tokenIds.push(i);
+    }
+    return await Promise.all(
+      await tokenIds.map(async (tokenId) => {
+        let tokenURI = await this.contract.methods.tokenURI(tokenId).call({
+          from: this.account,
+        });
+        return {
+          id: tokenId,
+          uri: tokenURI,
+        };
+      })
+    );
+  };
+
   this.userOwnedTokens = async () => {
     return await this.contract.methods.userOwnedTokens().call({
       from: this.account,

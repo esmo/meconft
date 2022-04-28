@@ -10,7 +10,7 @@ export default function NftForm({
   setLoading,
 }) {
   return (
-    <Form className="nft-form" encType="multipart/form-data">
+    <Form id="nft-form" className="nft-form" encType="multipart/form-data">
       <Form.Group grouped>
         <ImagePreview
           setImage={(filename, imageData) => {
@@ -65,11 +65,10 @@ export default function NftForm({
       <Form.Group grouped>
         <Form.Button
           onClick={() => {
-            console.log("SUBMIT BUTTON CLICKED!");
             handleSubmit();
           }}
         >
-          Submit
+          Create
         </Form.Button>
       </Form.Group>
     </Form>

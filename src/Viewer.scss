@@ -1,0 +1,32 @@
+.viewer-item {
+  & > * {
+    display: block;
+    // width: 392px;
+    // height: 392px;
+    height:300px;
+    object-fit: cover;
+    position: relative;
+    left: 1px;
+    top: 1px;
+  }
+  & * {
+    border-radius: 5px;
+  }
+  video, canvas {
+    width:340px;
+  }
+  .no-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      position: relative;
+      z-index: 0;
+      color: black;
+      background-color: white;
+      border-top-right-radius: 10px;
+      padding: 60% 30% 15%;
+      text-align: center;
+    }
+  }
+}
