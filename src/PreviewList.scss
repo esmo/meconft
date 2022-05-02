@@ -1,7 +1,14 @@
 .preview-list {
   display: flex;
   .preview-list-item {
-    margin-right:20px;
-    margin-bottom:20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    .viewer-item {
+      video,
+      canvas {
+        width: 192px;
+        height: 192px;
+      }
+    }
   }
 }

@@ -40,7 +40,11 @@ export default ({ src, filename, width, height }) => {
     case "mp4":
     case "webm":
     case "mp3":
-      canvas = <FileViewer fileType={filetype} filePath={src} />;
+      canvas = (
+        <div style={{ width: width + "px", height: height + "px" }}>
+          <FileViewer fileType={filetype} filePath={src} />
+        </div>
+      );
       break;
     case "obj":
       canvas = (

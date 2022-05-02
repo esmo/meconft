@@ -6,6 +6,8 @@ import yaml from "js-yaml";
 import { Link } from "react-router-dom";
 import Viewer from "./Viewer";
 
+// import fileDownload from "js-file-download";
+
 import { BounceLoader } from "react-spinners";
 
 import "./DetailView.scss";
@@ -43,7 +45,13 @@ export default ({ token }) => {
         </div>
         <div>{nftMetadata.description}</div>
         <div>
-          {/*<a href={"https://ipfs.io/ipfs/"+nftMetadata.CID} target="_blank">download file</a>*/}
+          <a
+            href={nftBlob}
+            target="_blank"
+            download={nftMetadata.CID + "." + nftMetadata.fileType}
+          >
+            Download
+          </a>
         </div>
       </div>
     </div>
