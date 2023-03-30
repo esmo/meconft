@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 import loadNft from "./helpers/loadNft";
-
-import yaml from "js-yaml";
-import { Link } from "react-router-dom";
+//
+// import yaml from "js-yaml";
+// import { Link } from "react-router-dom";
 import Viewer from "./Viewer";
 
 // import fileDownload from "js-file-download";
@@ -18,15 +18,22 @@ export default ({ token }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setData();
-  }, []);
+    async function setData(){
+      let nftData = await loadNft(token.uri);
+      if(!ignore) {
+        setNftBlob(nftData.blob);
+        setNftMetadata(nftData.metadata);
+        setLoading(false);
+      }
+    }
 
-  let setData = async () => {
-    let nftData = await loadNft(token.uri);
-    setNftBlob(nftData.blob);
-    setNftMetadata(nftData.metadata);
-    setLoading(false);
-  };
+    let ignore = false;
+    setData();
+    return () => {
+      ignore = true;
+    }
+  });
+
 
   return loading ? (
     <BounceLoader />
