@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Counters.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/c239e1af8d1a1296577108dd6989a17b57434f8e/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/c239e1af8d1a1296577108dd6989a17b57434f8e/contracts/access/Ownable.sol";
 
 // import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 // import "@openzeppelin/contracts/utils/Counters.sol";
 // import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MeCoNft is ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-
-    // Counters.Counter public tokenIds;
     uint256 private _tokenIdCounter;
     mapping(string => uint256) private tokenIdByURI;
     mapping(address => uint256[]) public userOwnedTokens;
@@ -21,7 +17,7 @@ contract MeCoNft is ERC721URIStorage, Ownable {
     constructor() ERC721("MeCoNft", "MECONFT") {}
 
     function lastTokenId() public view returns (uint256) {
-        return Counters.current(tokenIds);
+        return _tokenIdCounter;
     }
 
     function mintNft(string memory tokenURI) external returns (uint256) {
@@ -73,8 +69,6 @@ contract MeCoNft is ERC721URIStorage, Ownable {
         userOwnedTokenIndexes[tokenId] = userOwnedTokens[to].length - 1;
     }
 
-    /* Transfer must update userOwnedTokens, so disable it for now */
-
     /**
      * @dev See {IERC721-transferFrom}.
      */
@@ -122,4 +116,5 @@ contract MeCoNft is ERC721URIStorage, Ownable {
         addUserOwnedToken(to, tokenId);
         _safeTransfer(from, to, tokenId, _data);
     }
+
 }
