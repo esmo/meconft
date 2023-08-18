@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Counters.sol";
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Counters.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+// import "@openzeppelin/contracts/utils/Counters.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MeCoNft is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
-    Counters.Counter public tokenIds;
+    // Counters.Counter public tokenIds;
+    uint256 private _tokenIdCounter;
     mapping(string => uint256) private tokenIdByURI;
     mapping(address => uint256[]) public userOwnedTokens;
     mapping(uint256 => uint256) private userOwnedTokenIndexes;
@@ -25,15 +26,16 @@ contract MeCoNft is ERC721URIStorage, Ownable {
 
     function mintNft(string memory tokenURI) external returns (uint256) {
         require(tokenIdByURI[tokenURI] == 0, "URI already minted");
-        tokenIds.increment();
-        uint256 newNftTokenId = tokenIds.current();
+        // tokenIds.increment();
+        uint256 tokenIds = _tokenIdCounter;
+        uint256 newNftTokenId = tokenIds++;
         userOwnedTokens[msg.sender].push(newNftTokenId);
         userOwnedTokenIndexes[newNftTokenId] =
             userOwnedTokens[msg.sender].length -
             1;
         _safeMint(msg.sender, newNftTokenId);
         setTokenURI(newNftTokenId, tokenURI);
-
+        _tokenIdCounter += 1;
         return newNftTokenId;
     }
 

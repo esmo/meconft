@@ -52,6 +52,7 @@ export default ({ token }) => {
         </div>
         <div>{nftMetadata.description}</div>
         <div>
+          {/*
           <a
             href={nftBlob}
             target="_blank"
@@ -59,6 +60,7 @@ export default ({ token }) => {
           >
             Download
           </a>
+          */}
         </div>
       </div>
     </div>

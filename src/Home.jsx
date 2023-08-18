@@ -21,6 +21,7 @@ function Home() {
   const [transactionReceipt, setTransactionReceipt] = useState({});
   const [loading, setLoading] = useState(false);
   const [showAll, setShowAll] = useState(true);
+  const [haveTokens, setHaveTokens] = useState(false);
 
   const updateFormData = (key, value) => {
     setFormData((prevState) => ({
@@ -84,6 +85,7 @@ function Home() {
 
   return (
     <div className="main">
+
       {loading ? (
         <div className="spinner">
           <BounceLoader color={"#6CEC7D"} loading={loading} />
@@ -94,15 +96,18 @@ function Home() {
       <div className="top-box">
         <header>
           <h2>
-            Create your individual non-fungible token with our new nftMAKER.
+            Create your individual non - fungible token with our new nftMAKER.
           </h2>
           <div>
             <ul>
-              <li>We created our own smart contract based on ERC721.</li>
-              <li>We use Polygon for low gas fee.</li>
-              <li>Every NFT is unique and saved on the Ethereum sidechain.</li>
-              <li>Upload any file type.</li>
-              <li>Save and protect whole concepts as NFT.</li>
+              <li> We created our own smart contract based on ERC721. </li>
+              <li> We use Polygon for low gas fee. </li>
+              <li>
+
+                Every NFT is unique and saved on the Ethereum sidechain.
+              </li>
+              <li> Upload any file type. </li>
+              <li> Save and protect whole concepts as NFT. </li>
             </ul>
           </div>
         </header>
@@ -116,7 +121,7 @@ function Home() {
         </div>
       </div>
       <div className="bottom-box">
-        <h3>Our Collection</h3>
+        <h3> Our Collection </h3>
         <nav>
           <ul>
             <li>
@@ -142,6 +147,7 @@ function Home() {
           </ul>
         </nav>
         <div>
+
           {(showAll && allTokenUris.length > 0) ||
           (!showAll && ownedTokens.length > 0) ? (
             <PreviewList data={showAll ? allTokenUris : ownedTokens} />
