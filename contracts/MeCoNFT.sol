@@ -22,9 +22,8 @@ contract MeCoNft is ERC721URIStorage, Ownable {
 
     function mintNft(string memory tokenURI) external returns (uint256) {
         require(tokenIdByURI[tokenURI] == 0, "URI already minted");
-        // tokenIds.increment();
         uint256 tokenIds = _tokenIdCounter;
-        uint256 newNftTokenId = tokenIds++;
+        uint256 newNftTokenId = ++tokenIds;
         userOwnedTokens[msg.sender].push(newNftTokenId);
         userOwnedTokenIndexes[newNftTokenId] =
             userOwnedTokens[msg.sender].length -

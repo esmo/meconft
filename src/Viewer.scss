@@ -3,7 +3,9 @@
     display: block;
     // width: 392px;
     // height: 392px;
-    height:1000px;
+    // height:1000px;
+    min-height: 192px;
+    min-width:192px;
 
     object-fit: cover;
     position: relative;
