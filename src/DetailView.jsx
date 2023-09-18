@@ -32,7 +32,7 @@ export default ({ token }) => {
     return () => {
       ignore = true;
     }
-  });
+  }, []);
 
 
   return loading ? (
